@@ -1,5 +1,6 @@
 classdef class_transmission_data
     %class_transmission_data
+    %
     %   Universal data structure for transmission data
     
     properties

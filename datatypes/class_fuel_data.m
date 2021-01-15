@@ -1,5 +1,6 @@
 classdef class_fuel_data
     %class_fuel_data
+    %
     %   Universal data structure for fuel data
     
     properties

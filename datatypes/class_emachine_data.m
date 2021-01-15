@@ -1,5 +1,6 @@
 classdef class_emachine_data
     %class_emachine_data
+    %
     %   Universal data structure for emachine (electric motor/generator) data
     
     properties

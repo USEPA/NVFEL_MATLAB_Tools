@@ -1,5 +1,6 @@
 classdef class_vehicle_data
     %class_vehicle_data
+    %
     %   Universal data structure for vehicle data
     
     properties

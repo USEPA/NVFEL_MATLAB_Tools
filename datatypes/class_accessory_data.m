@@ -1,5 +1,6 @@
 classdef class_accessory_data
     %class_accessory_data
+    %
     %   Universal data structure for accessory load data
     
     properties

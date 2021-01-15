@@ -1,5 +1,6 @@
 classdef class_battery_data
     %class_battery_data
+    %
     %   Universal data structure for battery data
     
     properties
