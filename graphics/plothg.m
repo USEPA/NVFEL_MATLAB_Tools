@@ -1,5 +1,5 @@
 function [lineseries] = plothg(varargin)
-% function [lineseries] = PLOTHG(varargin)
+% [lineseries] = PLOTHG(varargin)
 %    Shortcut for: plot; hold on; grid on;
 %
 % Parameters:
