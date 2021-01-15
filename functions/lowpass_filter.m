@@ -15,9 +15,12 @@ function [filt_val] = lowpass_filter(val, time, cutoff_hz, varargin)
 % Returns:
 %   vector of filtered value
 %
+% See also:
+%   time_aligner
+%
 
     do_plots            = parse_varargs(varargin, 'do_plots', false, 'toggle');
-    time_align_disable  = parse_varargs(varargin,'time_align_disable',false,'toggle');
+    time_align_disable  = parse_varargs(varargin, 'time_align_disable', false, 'toggle');
     
     was_column = iscolumn(val);
     
@@ -35,9 +38,7 @@ function [filt_val] = lowpass_filter(val, time, cutoff_hz, varargin)
     end
     
     if ~time_align_disable
-% 		offset_time = time_aligner(time, val, time, filt_val,'reference_end',time(end)*0.1,'comparison_end',time(end)*0.11,'offset_interval',0.05);
-	
-		cmp_idx = 1:min(length(time),max(100, length(time) * 0.1));
+        cmp_idx = 1:min(length(time),max(100, length(time) * 0.1));
 		ref_idx = cmp_idx(1:ceil(length(cmp_idx)*0.75));		
 		offset_time = time_aligner(time(ref_idx), val(ref_idx), time(cmp_idx), filt_val(cmp_idx) );
 

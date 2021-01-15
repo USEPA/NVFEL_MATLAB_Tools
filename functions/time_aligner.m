@@ -19,8 +19,9 @@ function [ best_offset_time, offset_time, comparison_error] = ...
 %   varargin (optional keyword and name-value arguments):
 %       * 'reference_window', numeric
 %           2-element vector to define the start and end times of the 
-%           reference window, format [start_time, end_time], otherwise
-%           the entire ``reference_time`` timespan is used
+%           reference window, format [start_time, end_time], by default
+%           the entire ``reference_time`` timespan is used unless
+%           overridden
 %
 %       * 'reference_start', numeric
 %           define reference window start time
@@ -30,8 +31,9 @@ function [ best_offset_time, offset_time, comparison_error] = ...
 %
 %       * 'comparison_window', numeric
 %           2-element vector to define the start and end times of the 
-%           comparison window, format [start_time, end_time], otherwise
-%           the entire ``comparison_time`` timespan is used
+%           comparison window, format [start_time, end_time], by default
+%           the entire ``comparison_time`` timespan is used unless
+%           overridden
 %
 %       * 'comparison_start', numeric
 %           define comparison window start time
