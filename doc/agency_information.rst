@@ -11,6 +11,3 @@ Agency Information
 | Ann Arbor, Michigan  48105
 | Tel 734-214-4200
 | `www.epa.gov <https://www.epa.gov>`_
-
-.. image:: images/alpha_logo_square.jpg
-    :align: center

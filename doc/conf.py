@@ -29,6 +29,7 @@ author = 'EPA'
 
 # The full version, including alpha/beta/rc tags
 release = '0.0.1'
+version = '0.0.1'
 
 # -- General configuration ---------------------------------------------------
 
@@ -60,6 +61,10 @@ numfig = True
 # a list of builtin themes.
 #
 html_theme = "sphinx_rtd_theme"
+
+html_theme_options = {
+    'display_version': True,
+}
 
 html_sidebars = {
    '**': ['globaltoc.html', 'sourcelink.html', 'searchbox.html'],
