@@ -1,39 +1,41 @@
 function [] = powerlines( varargin )
-% function [] = POWERLINES( varargin )
+% POWERLINES( varargin )
 %   Draw lines of constant power in increments on the current plot axis,
 %   typically used with engine or motor map plots.
 %
 % Parameters:
 %   varargin (optional keyword and name-value arguments):
-%       * 'units' (str)
+%       * 'units', str
 %           'W', 'kW' or 'hp' - hints that chart is in RPM & Nm, or RPM &
 %           ft-lbs.
 %
-%       * 'convert' (numeric, requires 'units' to be supplied)
-%           provides an arbitrary power scale.
+%       * 'convert', numeric
+%            `(requires 'units' to be supplied)` provides an arbitrary power 
+%            scale, for example if axes are unusual, like radians per
+%            second and inch-pounds instead of RPM and Nm
 %
-%       * 'max' (numeric)
+%       * 'max', numeric
 %           maximum power line in ``units`` (if supplied), taken as Watts 
 %           if over 10,000 and no ``units`` are supplied, otherwise taken 
 %           as kiloWatts if no ``units`` are supplied.
 %
-%       * 'min' (numeric)
+%       * 'min', numeric
 %           minimum power line in ``units`` (if supplied), 
 %           taken as Watts if ``max`` is over 10,000 and no ``units`` are 
 %           supplied, otherwise taken as kiloWatts if no ``units`` are
 %           supplied.
 %
-%       * 'increment' (numeric)
+%       * 'increment', numeric
 %           distance, in ``units`` (if supplied) between power lines.  
 %           If not supplied, it will be calculated to draw 11 lines between
 %           min and max power.
 %
-%       * 'z_offset' (numeric) 
+%       * 'z_offset', numeric
 %           height above chart to plot powerlines, default = 0, allows power
 %           lines to 'hover' if they interfere with other plot elements.
 %
-%       * 'auto_refresh' (bool): 
-%           if provided, then powerline re-draw will be enabled or disabled
+%       * 'auto_refresh', bool
+%           enable or disable powerline re-draw
 %           on plot resizing. Default value is **true**.  Adds a listener
 %           to the plot, calls **rescale_callback** subfunction
 %
@@ -161,7 +163,8 @@ end
 function rescale_callback(src, evt, ax, pow_levels, power_scale, line_hand, txt_hand, z_offset)
 % function rescale_callback(src, evt, ax, pow_levels, power_scale, line_hand, txt_hand, z_offset)
 %   Refreshes powerlines when plot is resized, if enabled by 'auto_refresh'
-% 
+%   Main POWERLINES plotting function
+%
 	x_range = xlim;
 	y_range = ylim;
 	

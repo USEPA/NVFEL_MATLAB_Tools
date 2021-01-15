@@ -1,5 +1,5 @@
 function xyt(plot_x_label, plot_y_label, varargin)
-% function XYT(plot_x_label, plot_y_label, varargin)
+% XYT(plot_x_label, plot_y_label, varargin)
 %   Set plot x- and y-labels, optionally set the plot title.
 %
 % Shortcut for setting plot labels using **xlabel** and **ylabel**, and
@@ -9,9 +9,12 @@ function xyt(plot_x_label, plot_y_label, varargin)
 %   plot_x_label (str): plot x-axis label string
 %   plot_y_label (str): plot y-axis label string
 %   varargin (optional keyword and name-value arguments):
-%       * first positional argument: plot title string
-%       * subsequent varargs: passed to **title** function
-%       * 'no_date': disables automatic date string in title
+%       * first positional vararg (string)
+%           plot title string
+%       * subsequent varargs
+%           passed to **title** function
+%       * 'no_date'
+%           disable automatic date string in title
 %
 % Examples:
 %   Set x- and y-axis labels::

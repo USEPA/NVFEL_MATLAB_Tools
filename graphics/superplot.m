@@ -1,4 +1,5 @@
-function h = superplot(varargin)
+function [h] = superplot(varargin)
+% [h] = SUPERPLOT(varargin)
 % SUPERPLOT upgraded linear plotting compatible with Matlab **plot** function
 %
 % SUPERPLOT is a replacement for the built-in matlab plotting with 

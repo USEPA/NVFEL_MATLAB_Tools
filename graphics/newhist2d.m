@@ -1,5 +1,5 @@
 function [ax, ch, hist2d_bindata] = newhist2d(binvar_x, bindef_x, binvar_y, bindef_y, rate, time, scale_min, scale_max, varargin)
-% function [ax, ch, hist2d_bindata] = NEWHIST2D(binvar_x, bindef_x, binvar_y, bindef_y, rate, time, scale_min, scale_max, varargin)
+% [ax, ch, hist2d_bindata] = NEWHIST2D(binvar_x, bindef_x, binvar_y, bindef_y, rate, time, scale_min, scale_max, varargin)
 %   Calculate 2D integral histogram, and optionally plot it
 %
 % Parameters:
@@ -14,14 +14,14 @@ function [ax, ch, hist2d_bindata] = newhist2d(binvar_x, bindef_x, binvar_y, bind
 %   scale_max: maximum integral will be scaled to this value, requires
 %       ``scale_min``.  Can be used to normalize data within a known range
 %   varargin (optional keyword and name-value arguments):
-%       * 'no_plot': 
-%           if provided, calculates 2D histogram but disables plotting
+%       * 'no_plot'
+%           calculate 2D histogram but disable plotting
 %
 % Returns: 
-%   tuple: axis handle, countour handle, and 2D histogram data
+%   tuple: axis handle, contour handle, and 2D histogram data
 %
 
-do_plot = parse_varargs(varargin,'no_plot',true,'toggle');
+do_plot = parse_varargs(varargin, 'no_plot', true, 'toggle');
 
 quantity = rate.*delta(time,1);
 binmiddles_x = (bindef_x(1:length(bindef_x)-1)+bindef_x(2:length(bindef_x)))/2;
