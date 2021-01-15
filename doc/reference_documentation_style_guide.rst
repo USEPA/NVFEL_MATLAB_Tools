@@ -144,7 +144,7 @@ Image files **cannot** have spaces in the filenames.
 
 results in:
 
-.. image:: figures/engine_fuel_rate_gps_mask.jpg
+.. .. image:: figures/engine_fuel_rate_gps_mask.jpg
 
 Hyperlinks
 ----------

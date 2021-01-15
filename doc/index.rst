@@ -18,10 +18,9 @@ Documentation
 .. toctree::
     :caption: Reference
 
-..    python_code
-
     matlab_code
 
+..  python_code
 ..  reference_documentation_style_guide
 
 Code Index

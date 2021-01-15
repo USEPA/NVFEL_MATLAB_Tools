@@ -1,16 +1,14 @@
 Matlab Code
 ===========
 
-.. mat:automodule:: model
+.. mat:automodule:: datatypes
     :members:
 
-.. .. mat:automodule:: REVS_Common.functions
+.. mat:automodule:: functions
     :members:
-    .. mat:automodule:: REVS_Common.helper_scripts
-        :members:
-    .. mat:automodule:: REVS_Common.log_packages
-        :members:
-    .. mat:automodule:: ALPHA_Projects.ALPHA_DEMO
-        :members:
-    .. mat:automodule:: ALPHA_Projects.ALPHA_DEMO.param_files.midsize_car
-        :members:
+
+.. mat:automodule:: graphics
+    :members:
+
+.. mat:automodule:: utilities
+    :members:

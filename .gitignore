@@ -1,3 +1,4 @@
 /.idea/
 *.asv
 /venv/
+/doc/_build/
