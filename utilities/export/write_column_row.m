@@ -1,7 +1,8 @@
 function [] = write_column_row(fid, columns, varargin)
-%WRITE_COLUMN_ROW(fid, columns, varargin)
-%   Output a formatted text column to a file as defined by a vector of 
-%   ``class_data_columns`` objects
+% WRITE_COLUMN_ROW(fid, columns, varargin)
+%
+% Output a formatted text column to a file as defined by a vector of 
+% ``class_data_columns`` objects
 %
 % Parameters:
 %   fid: file identifier
@@ -22,7 +23,7 @@ function [] = write_column_row(fid, columns, varargin)
 %           blank row is inserted before the header.
 %
 % See also:
-%   class_data_columns
+%   class_data_column
 %
 
 delimiter        = parse_varargs(varargin, 'delimiter', ',', 'string');
