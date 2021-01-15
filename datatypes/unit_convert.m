@@ -17,7 +17,7 @@ classdef unit_convert
 		mps2mph =  3600 / unit_convert.mi2mtr;   % by definition
 		mph2mps =  1 / unit_convert.mps2mph;
 		
-		lbm2kg = 0.453592;			% NIST
+		lbm2kg = 0.453592;          % NIST
 		kg2lbm = 1 / unit_convert.lbm2kg;
 
         hp2W = 745.6999;            % NIST
@@ -53,7 +53,7 @@ classdef unit_convert
 		galgas2gCO2 = 8887;         % EPA LD GHG rule
 		gCO22galgas = 1 / unit_convert.galgas2gCO2;
 		
-		ftlbs2Nm = 1.355818;		% NIST
+		ftlbs2Nm = 1.355818;        % NIST
 		Nm2ftlbs = 1 / unit_convert.ftlbs2Nm;
 		
 		MPa2kPa = 1000;             % by definition
@@ -69,7 +69,7 @@ classdef unit_convert
 		Pa2bar = 1 / unit_convert.bar2Pa;
 		
 		
-		psi2kPa = 6.894757;			% NIST
+		psi2kPa = 6.894757;         % NIST
 		kPa2psi = 1 / unit_convert.psi2kPa;
 		
 		psi2bar =  unit_convert.psi2kPa / 100;   % by definition
