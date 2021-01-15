@@ -15,9 +15,6 @@ import os
 import sys
 path = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(path, '..'))
-# sys.path.insert(0, os.path.join(path, '..', 'model'))
-# sys.path.insert(0, os.path.join(path, '..', 'model', 'ALPHA_Projects'))
-# sys.path.insert(0, os.path.join(path, '..', 'model', 'REVS_Common', 'functions'))
 
 matlab_src_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 

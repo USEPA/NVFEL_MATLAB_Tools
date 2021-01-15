@@ -67,8 +67,7 @@ classdef unit_convert
 		
 		bar2Pa = 1e5;               % by definition
 		Pa2bar = 1 / unit_convert.bar2Pa;
-		
-		
+
 		psi2kPa = 6.894757;         % NIST
 		kPa2psi = 1 / unit_convert.psi2kPa;
 		
