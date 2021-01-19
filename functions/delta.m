@@ -1,10 +1,24 @@
 function [answer] = delta(vector, mode)
-% DELTA Approximate derivative with length(vector) elements.
-%   DELTA(vector, mode) returns diff(vector), prepended with either
-%       the first element of diff(vector) if mode == 1, or 0 if mode == 2.
+% [answer] = DELTA(vector, mode)
 %
-% see also diff.
-    
+% Approximate derivative with ``length(vector)`` elements.
+%
+% Returns ``diff(vector)``, prepended with either the first element of 
+% ``diff(vector)`` if ``mode`` == 1, or 0 if ``mode`` == 2.
+%
+% Parameters:
+%   vector: variable to create approximate derivative of
+%   mode: 
+%       first element of result is first element of ``diff(vector)`` if 
+%       mode == 1, first element is 0 otherwise
+%
+% Returns:
+% ``diff(vector)``, prepended with either the first element of 
+% ``diff(vector)`` if mode == 1, or 0 if mode == 2.
+%
+% See also: diff
+%
+
 answer = diff(vector);
 
 if (mode ~= 2) 
