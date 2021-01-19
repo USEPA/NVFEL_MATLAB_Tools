@@ -11,4 +11,6 @@ Add folders and subfolders to the Matlab path.
 Documentation
 ^^^^^^^^^^^^^
 
-PDF documentation available at https://nvfel-matlab-tools.readthedocs.io/_/downloads/en/latest/pdf/
+The published documentation homepage is  https://nvfel-matlab-tools.readthedocs.io/en/latest/
+
+The latest .pdf docs are available at https://nvfel-matlab-tools.readthedocs.io/_/downloads/en/latest/pdf/
