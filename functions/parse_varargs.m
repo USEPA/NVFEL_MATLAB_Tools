@@ -18,7 +18,7 @@ function [value] = parse_varargs(varargs, name, default, varargin)
 %       default value for ``value`` if ``name`` not found
 %   varargin (optional keyword and name-value arguments):
 %       * 'toggle', or validation / vararg type information supported by
-%       ``validate_arg()`` and ``validateattributes()``
+%           ``validate_arg()`` and ``validateattributes()``
 %
 % Returns:
 %   Default value or value provided by ``varargs``
