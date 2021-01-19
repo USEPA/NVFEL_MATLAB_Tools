@@ -1,6 +1,6 @@
-function [lineseries] = plothg(varargin)
-% [lineseries] = PLOTHG(varargin)
-%    Shortcut for: plot; hold on; grid on;
+function [lineseries] = fplotg(varargin)
+% [lineseries] = FPLOTG(varargin)
+%    Shortcut for: figure; plot; grid on;
 %
 % Parameters:
 %   varargin (optional keyword and name-value arguments): plot arguments
@@ -19,12 +19,12 @@ function [lineseries] = plothg(varargin)
 %       plothg([0 1 2], [6 5 4], 'b-');
 %
 % See also:
-%   plot, hold, grid, superplot
+%   figure, plot, grid, superplot
 %
 
-lineseries = superplot(varargin{:});
+figure;
 
-hold on;
+lineseries = superplot(varargin{:});
 
 grid on;
 

@@ -6,7 +6,7 @@
 % Typically used with **gax**
 %
 % See also:
-%   axis, gax, gay, say, gaxy, saxy, saxall
+%   axis, gax, gay, say, gaxy, saxy, saxall, gaz, saz
 %
 
 plot_axis = axis;

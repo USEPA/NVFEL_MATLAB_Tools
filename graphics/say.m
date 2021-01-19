@@ -6,9 +6,8 @@
 % Typically used with **gay**
 %
 % See also:
-%   axis, gax, sax, gay, gaxy, saxy, saxall
+%   axis, gax, sax, gay, gaxy, saxy, saxall, gaz, saz
 %
 
 plot_axis = axis;
-axis([plot_axis(1) plot_axis(2) plot_axis(3) plot_axis(4)]);
 axis([plot_axis(1) plot_axis(2) gay1 gay2]);
