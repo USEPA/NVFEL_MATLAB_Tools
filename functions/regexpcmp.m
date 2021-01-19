@@ -1,9 +1,22 @@
-function [ match ] = regexpcmp( str, expression, varargin )
-%REGEXPCMP 
-% Compare string via regular expression. Similar to strcmp except the comparison utilizes regular expression.
+function [match] = regexpcmp( str, expression, varargin )
+% [match] = REGEXPCMP( str, expression, varargin )
+% 
+% Compare string via regular expression. Similar to strcmp except the 
+% comparison utilizes regular expressions.
+%
+% Parameters:
+%   str: string or cell array of strings to compare with expression
+%   expression: regular expression or cell array of regular expressions
+%   varargin: varargs supported by ``regexp()``
+%
+% Returns:
+%   Cell array of boolean comparison results
+%
+% See also: regexp, cellfun, strcmp
+%
 
-if ischar( str ) && ischar( expression)
-	match = ~isempty(regexp(str, expression,'once',varargin{:}));
+if ischar(str) && ischar(expression)
+	match = ~isempty(regexp(str, expression, 'once', varargin{:}));
 else
 	
 	if ~iscell( str)
@@ -14,15 +27,15 @@ else
 		expression = {expression};
 	end
 	
-	if numel(str) == 1 && numel( expression) > 1
-		str = repmat(str,size(expression));
+	if numel(str) == 1 && numel(expression) > 1
+		str = repmat(str, size(expression));
 	end
 		
 	if numel(expression) == 1 && numel( str) > 1
 		expression = repmat(expression,size(str));
 	end
 			
-	match = ~cellfun(@isempty, regexp(str, expression,'once',varargin{:})) ;
+	match = ~cellfun(@isempty, regexp(str, expression, 'once', varargin{:}));
 
 end
 

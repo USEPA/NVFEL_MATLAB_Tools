@@ -1,36 +1,24 @@
 function [s] = export2struct(varargin)
-% [s] = workspace2struct( varargin)
+% [s] = EXPORT2STRUCT(varargin)
+%
+% Save some or all of a Matlab workspace in a structure object. 
 %
 % Parameters:
 %   varargin (optional keyword and name-value arguments):
-%       * 'clear': clear variables from workspace after export
+%       * 'clear': 
+%           clear variables from workspace after export
 %       * 'select' (cell array of strings): 
 %           names of variables to export, used to limit export to a 
 %           subset of all variables
 %       * 'exclude' (cell array of strings):
 %           names of variables to exclude from export, used to limit export
-%               to a subset of all variables
+%           to a subset of all variables
 %
 % Returns:
-%   Workspace variables within a structure object
+%   Workspace variables within a structure object as fieldnames
 %
 
 vars = evalin('caller', 'who');
-
-% exclude = {};		% Exclude None
-% select = {'*'};		% Select All
-% clear_vars = false;
-% for j= 1:length(varargin)
-% 	if( ~ ischar(varargin{j}) )
-% 		continue;
-% 	elseif( strcmpi( varargin{j}, 'clear' ))
-% 		clear_vars = true;
-% 	elseif( strcmpi( varargin{j}, 'select' ))		
-% 		select = varargin{j+1};
-% 	elseif( strcmpi( varargin{j}, 'exclude' ))
-% 		exclude = varargin{j+1};
-% 	end
-% end
 
 % Parse Varargin
 clear_vars = parse_varargs(varargin, 'clear', false, 'toggle');
@@ -40,7 +28,6 @@ exclude = parse_varargs(varargin, 'exclude', {}, 'cell');
 % Convert Selects to Regular Expressions
 select = strcat('^', strrep(select, '*', '.*'), '$');
 exclude = strcat('^', strrep(exclude, '*', '.*'), '$');
-
 
 % Empty Structure to Fill
 s = {};
