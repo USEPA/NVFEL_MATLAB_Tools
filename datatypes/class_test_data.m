@@ -13,6 +13,7 @@ classdef class_test_data
         transmission        = class_transmission_data   % transmission data
         propulsion_battery  = class_battery_data;       % propulsion battery for EVs or HEVs
         emachine            = class_emachine_data;      % for electric machines (motors/generators)
+        controls            = class_controls_data;      % for electric machines (motors/generators)
     end
     
     properties ( Dependent )
@@ -36,6 +37,8 @@ classdef class_test_data
             obj.propulsion_battery.time = time_vector;
             
             obj.emachine.time           = time_vector;
+            
+            obj.controls.time           = time_vector;
 		end
     end
     
