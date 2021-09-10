@@ -1,0 +1,394 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>MDF Import Tool Help</title>
+      <meta name="generator" content="MATLAB 7.2">
+      <meta name="date" content="2006-03-28">
+      <meta name="m-file" content="mdfimporttoolhelp"><style>
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows.  On Gecko-based browsers, the shrink-to-fit doesn't work. */ 
+p,h1,h2,div.content div {
+  /* for MATLAB's browser */
+  width: 600px;
+  /* for Mozilla, but the "width" tag overrides it anyway */
+  max-width: 600px;
+  /* for IE */
+  width:expression(document.body.clientWidth > 620 ? "600px": "auto" );
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head>
+   <body>
+      <div class="content">
+         <h1>MDF Import Tool Help</h1>
+         <introduction>
+            <p>This document describes how to import MDF files with the <tt>mdfimport</tt> tool. To learn how to call <tt>mdfimport</tt> as a function,  see separate <a href="mdfimportfunctionhelp.html">MDF import function help</a>.
+            </p>
+         </introduction>
+         <h2>Contents</h2>
+         <div>
+            <ul>
+               <li><a href="#1">Starting the tool</a></li>
+               <li><a href="#2">Opening an MDF File</a></li>
+               <li><a href="#4">Selecting signals</a></li>
+               <li><a href="#5">Importing the signals</a></li>
+               <li><a href="#6">Signal Import Options</a></li>
+               <li><a href="#7">Creating a signal selection file</a></li>
+               <li><a href="#8">Using a signal selection file</a></li>
+               <li><a href="#9">Changing the created time vectors</a></li>
+               <li><a href="#11">Clearing MDF and signal selection files</a></li>
+               <li><a href="#12">Generating command line equivalent</a></li>
+               <li><a href="#13">Appendix</a></li>
+            </ul>
+         </div>
+         <h2>Starting the tool<a name="1"></a></h2>
+         <p>To open the MDF import tool, type <tt>mdfimport</tt> at the command line, with no arguments.
+         </p>
+         <h2>Opening an MDF File<a name="2"></a></h2>
+         <p>From the <b>MDF File</b> menu, select <b>Open MDF File...</b>. Use the dialog that appears to browse and select an MDF (<tt>.dat</tt> or <tt>.mdf</tt>) file. After an MDF file has been selected, the names of all available signals will appear in the <b>Unselected signals</b> list in the <b>Select Signals</b> panel. The name of the MDF file is also listed at the top of this panel.
+         </p>
+         <p>The available signal names shown are the 'long' names and are displayed with the device names hidden by default. If you want
+            to see the device names, uncheck the <b>Hide device names</b> check box below this <b>Unselected signals</b> list. The device names are always removed from the signal names when the variables are created in the workspace. The names
+            are also appended with textual information from the MDF file about the sample rate of the signal. It is usually a string such
+            as '125ms' but can also a string like 'Cly Event' or 'Synchro' for asynchronously sampled signals.
+         </p>
+         <h2>Selecting signals<a name="4"></a></h2>
+         <p>You specify a signal for importing by selecting it from the <b>Unselected signals</b> list with the mouse then pressing the '&gt;' button. This will move it to the <b>Selected signals</b> list.  You can use the ctrl and shift keys to make multiple selections. You can select all signals with the '&gt;&gt;' button.
+            You can unselect signals from the <b>Selected signals</b> list, returning them to the <b>Unselected signals</b> list in a similar way using the '&lt;' and '&lt;&lt;' buttons.
+         </p>
+         <h2>Importing the signals<a name="5"></a></h2>
+         <p>You import the selected signals by pressing the <b>Import signals</b> button in the lower right corner. All signals will be loaded into the MATLAB workspace by default as individual column vector
+            variables. By default, each variable name is appended with <tt>_N</tt> where <tt>N</tt>, usually in the range 1 to 5, denotes one of the sampling rates in the MDF file. A time vector variable <tt>time_N</tt> is also created in the workspace and contains the associated sample times of the signal. The time vector can be used for
+            plotting the signal against time correctly or to provide the timing information for a Simulink "From Workspace" block.
+         </p>
+         <h2>Signal Import Options<a name="6"></a></h2>
+         <p>You can import the generated signals into a MAT-File instead. Go to the <b>Signal Import Options</b>  panel. Then in the <b>Import signals to:</b> option, choose <b>MAT-File</b>. After pressing the <b>Import signal(s)</b> button, choose the name of a MAT-file in the browser that appears. The name defaults to the MDF filename with the <tt>.mat</tt> suffix instead.
+         </p>
+         <p>You can differentiate variables and time vectors of different sample rates by having them appended with a string representing
+            the sample rate (e.g. <tt>_10ms</tt>) instead of a rate number. To do this, choose <b>rate string</b> in the <b>Differentiate rates by appending variable names with</b> option. This is useful if the tool generating the MDF file changes the rate number between different tests, making it difficult
+            to compare the variables.
+         </p>
+         <p>You can also append variable names with additional text. This can be useful if you want to differentiate the same set of data
+            from multiple different sessions, simulation runs or experiments. To do this add any text into the edit box labeled <b>Append variable names with additional text</b>.
+         </p>
+         <h2>Creating a signal selection file<a name="7"></a></h2>
+         <p>You can save the list of signals you selected in a file for use again. From the <b>Signal Selection File</b> menu, select <b>Create Signal Selection File...</b>. This brings up a dialog to allow you to locate a directory and text file to store the selected signal names.
+         </p>
+         <h2>Using a signal selection file<a name="8"></a></h2>
+         <p>You can open a previously stored signal selection file before or after you have loaded an MDF file. From the <b>Signal Selection File</b> menu, select <b>Open Signal Selection File...</b>. Use the dialog that appears to browse and select a <tt>.txt</tt> file.
+         </p>
+         <p>If an MDF file is currently loaded, the signals will be selected immediately. Any signals not found in the currently loaded
+            MDF file with be listed in the command window.
+         </p>
+         <p>If an MDF file is not currently loaded yet, the requested signals from the signal selection file will be shown in italics
+            in the <b>Selected signals</b> list. Then when an MDF file is loaded, the signals will be selected and any signals not found in the MDF file with be listed
+            in the command window. If you do not clear the signal selection file, the signal selection will remain active and be applied
+            to each MDF file loaded. This provides a method of selecting the same signals in multiple MDF files.
+         </p>
+         <p>The signal selection file can be edited or manually created with the signal names you want to select. The MDF Import tool
+            selects signals with names (with device names removed) that exactly match the strings in the signal selection file.
+         </p>
+         <h2>Changing the created time vectors<a name="9"></a></h2>
+         <p>Although signals in an MDF file have a nominal sample rate, e.g. 125ms, in practice, the sampling is non-uniform and thus
+            the time vectors generated are non-uniform. You can generate uniform time vectors by choosing <b>Create ideal uniform time vectors</b> in the <b>Time Vector Generation</b> panel.
+         </p>
+         <p>The 1-5 different sample rates used in the selected signals are displayed in the <b>Selected rates</b> list. This list shows the textual information about the samepl rates of the signals (e.g. 125ms) together with the actual
+            numerical value of the sample rate (e.g. 0.125). You can override a rate by selecting it and changing its value in the <b>New sample rate</b> edit box to the right.
+         </p>
+         <h2>Clearing MDF and signal selection files<a name="11"></a></h2>
+         <p>From the <b>MDF File</b> or <b>Signal Selection File</b> menu, select <b>Clear</b>.
+         </p>
+         <h2>Generating command line equivalent<a name="12"></a></h2>
+         <p>You can generate the command line equivalent call to <tt>mdfimport</tt> with appropriate parameters, based on the current options set in the GUI tool. This is useful in automating tasks in a script
+            such as importing many files. See separate <a href="mdfimportfunctionhelp.html">MDF import function help</a> for examples of using <tt>mdfimport</tt> as a function/command.
+         </p>
+         <p>Choose the <b>Command Generation</b> menu and select <b>Generate</b>. The command line equivalent is displayed in the command window. Copy and paste this into the command window or an M-file
+            to run. If there are many signals selected, you can replace long the list of names with a signal selection file (see "Creating
+            a signal selection file" earlier in this document). If all signals are selected, the signal selection parameter is set to
+            the default <tt>[]</tt> meaning import all signals.
+         </p>
+         <h2>Appendix<a name="13"></a></h2>
+         <p><b>Known limitations</b></p>
+         <div>
+            <ul>
+               <li>This tool has only been tested with MDF files generated by ETAS INCA.</li>
+               <li>You cannot load signals from "unsorted" MDF files.</li>
+               <li>You cannot load signals with names greater that 64 characters. The conversion of illegal variable characters like '.' and
+                  '\' to legal characters (see below) will make names longer.
+               </li>
+               <li>You cannot load signals in data blocks containing byte arrays.</li>
+               <li>You can only load signals with conversion formulae type 0, 1, 2, 6, 10 (assuming 'x' as variable), 11, 12, 65535.</li>
+               <li>Only MDF files with data from one device is supported. The work around is to store data from more than one device in sepertate
+                  MDF files.
+               </li>
+            </ul>
+         </div>
+         <p><b>Signal name creation</b></p>
+         <p>As variables are created for each signal, legal MATLAB variable names must be created from the signal names. This is done
+            by converting illegal characters to legal character combinations and by optionally adding an <tt>'x'</tt> to the start when signal names begin with numbers. The convertion process can be customized by modifying the <tt>mygenvarname</tt> subfunction inside <tt>mdfimport</tt>. The following illegal characters are converted as shown:
+         </p>
+         <div>
+            <ul>
+               <li><tt>'\'</tt> replaced with <tt>'_bs_'</tt></li>
+               <li><tt>'/'</tt> replaced with <tt>'_fs_'</tt></li>
+               <li><tt>'['</tt> replaced with <tt>'_ls_'</tt></li>
+               <li><tt>']'</tt> replaced with <tt>'_rs_'</tt></li>
+               <li><tt>'('</tt> replaced with <tt>'_lp_'</tt></li>
+               <li><tt>')'</tt> replaced with <tt>'_rp_'</tt></li>
+               <li><tt>':'</tt> replaced with <tt>'_co_'</tt></li>
+               <li><tt>'-'</tt> replaced with <tt>'_hy_'</tt></li>
+               <li><tt>' '</tt> (space) replaced with <tt>'_'</tt></li>
+               <li><tt>'.'</tt> replaced with <tt>'p'</tt></li>
+               <li><tt>'$'</tt> replaced with <tt>'S_'</tt></li>
+            </ul>
+         </div>
+         <p><b>References</b></p>
+         <p>This is a list of useful links:</p>
+         <div>
+            <ul>
+               <li><a href="http://en.etasgroup.com/products/inca/">ETAS, INCA</a></li>
+               <li><a href="http://en.etasgroup.com/downloads/downloads.php?file_id=65">MATLAB Add-on for INCA</a></li>
+               <li><a href="http://www.vector-cantech.com/products/canape.html">Vecto CANTech, CANape Graph</a></li>
+            </ul>
+         </div>
+         <p class="footer"><br>
+            Published with MATLAB&reg; 7.2<br></p>
+      </div>
+      <!--
+##### SOURCE BEGIN #####
+%% MDF Import Tool Help
+% This document describes how to import MDF files with the |mdfimport|
+% tool. To learn how to call |mdfimport| as a function,  see separate
+% <mdfimportfunctionhelp.html MDF import function help>.
+
+%% Starting the tool
+% To open the MDF import tool, type |mdfimport| at the command line, with
+% no arguments. 
+
+%% Opening an MDF File
+% From the *MDF File* menu, select *Open MDF File...*. Use the dialog that
+% appears to browse and select an MDF (|.dat| or |.mdf|) file. After an MDF file has
+% been selected, the names of all available signals will appear in the
+% *Unselected signals* list in the *Select Signals* panel. The name of the
+% MDF file is also listed at the top of this panel.
+
+%%
+% The available signal names shown are the 'long' names and are displayed
+% with the device names hidden by default. If you want to see the device
+% names, uncheck the *Hide device names* check box below this *Unselected
+% signals* list. The device names are always removed from the signal names
+% when the variables are created in the workspace. The names are also
+% appended with textual information from the MDF file about the sample rate
+% of the signal. It is usually a string such as '125ms' but can also a
+% string like 'Cly Event' or 'Synchro' for asynchronously sampled signals.
+
+%% Selecting signals 
+% You specify a signal for importing by selecting it from the *Unselected
+% signals* list with the mouse then pressing the '>' button. This will move
+% it to the *Selected signals* list.  You can use the ctrl and shift keys
+% to make multiple selections. You can select all signals with the '>>'
+% button. You can unselect signals from the *Selected signals* list,
+% returning them to the *Unselected signals* list in a similar way using
+% the '<' and '<<' buttons.
+
+%% Importing the signals
+% You import the selected signals by pressing the *Import signals* button
+% in the lower right corner. All signals will be loaded into the MATLAB
+% workspace by default as individual column vector variables. By default,
+% each variable name is appended with |_N| where |N|, usually in the range
+% 1 to 5, denotes one of the sampling rates in the MDF file. A time vector
+% variable |time_N| is also created in the workspace and contains the
+% associated sample times of the signal. The time vector can be used for
+% plotting the signal against time correctly or to provide the timing
+% information for a Simulink "From Workspace" block.
+
+%% Signal Import Options
+% You can import the generated signals into a MAT-File instead. Go to the
+% *Signal Import Options*  panel. Then in the *Import signals to:* option,
+% choose *MAT-File*. After pressing the *Import signal(s)* button, choose
+% the name of a MAT-file in the browser that appears. The name defaults to
+% the MDF filename with the |.mat| suffix instead.
+%
+% You can differentiate variables and time vectors of different sample
+% rates by having them appended with a string representing the sample rate
+% (e.g. |_10ms|) instead of a rate number. To do this, choose *rate string* in
+% the *Differentiate rates by appending variable names with* option. This
+% is useful if the tool generating the MDF file changes the rate number
+% between different tests, making it difficult to compare the variables.
+%
+% You can also append variable names with additional text. This can be
+% useful if you want to differentiate the same set of data from multiple
+% different sessions, simulation runs or experiments. To do this add any
+% text into the edit box labeled *Append variable names with additional
+% text*.
+
+%% Creating a signal selection file
+% You can save the list of signals you selected in a file for use again.
+% From the *Signal Selection File* menu, select *Create Signal Selection
+% File...*. This brings up a dialog to allow you to locate a directory and
+% text file to store the selected signal names. 
+
+%% Using a signal selection file
+% You can open a previously stored signal selection file before or after
+% you have loaded an MDF file. From the *Signal Selection File* menu,
+% select *Open Signal Selection File...*. Use the dialog that appears to
+% browse and select a |.txt| file.
+% 
+% If an MDF file is currently loaded, the signals will be selected
+% immediately. Any signals not found in the currently loaded MDF file with
+% be listed in the command window.
+%
+% If an MDF file is not currently loaded yet, the requested signals from
+% the signal selection file will be shown in italics in the *Selected
+% signals* list. Then when an MDF file is loaded, the signals will be
+% selected and any signals not found in the MDF file with be listed in the
+% command window. If you do not clear the signal selection file, the
+% signal selection will remain active and be applied to each MDF file
+% loaded. This provides a method of selecting the same signals in multiple MDF
+% files.
+%
+% The signal selection file can be edited or manually created with the
+% signal names you want to select. The MDF Import tool selects signals with
+% names (with device names removed) that exactly match the strings in the
+% signal selection file.
+
+%% Changing the created time vectors
+% Although signals in an MDF file have a nominal sample rate, e.g. 125ms,
+% in practice, the sampling is non-uniform and thus the time vectors
+% generated are non-uniform. You can generate uniform time vectors by
+% choosing *Create ideal uniform time vectors* in the *Time Vector
+% Generation* panel.
+
+%% 
+% The 1-5 different sample rates used in the selected signals are displayed
+% in the *Selected rates* list. This list shows the textual information
+% about the samepl rates of the signals (e.g. 125ms) together with the
+% actual numerical value of the sample rate (e.g. 0.125). You can override
+% a rate by selecting it and changing its value in the *New sample rate*
+% edit box to the right.
+
+%% Clearing MDF and signal selection files
+% From the *MDF File* or *Signal Selection File* menu, select *Clear*.
+
+%% Generating command line equivalent
+% 
+% You can generate the command line equivalent call to |mdfimport| with
+% appropriate parameters, based on the current options set in the GUI tool.
+% This is useful in automating tasks in a script such as importing many
+% files. See separate <mdfimportfunctionhelp.html MDF import function help>
+% for examples of using |mdfimport| as a function/command.
+% 
+% Choose the *Command Generation* menu and select *Generate*. The command
+% line equivalent is displayed in the command window. Copy and paste this
+% into the command window or an M-file to run. If there are many signals
+% selected, you can replace long the list of names with a signal
+% selection file (see "Creating a signal selection file" earlier in this
+% document). If all signals are selected, the signal selection parameter
+% is set to the default |[]| meaning import all signals. 
+
+%% Appendix
+%
+% *Known limitations* 
+
+%%
+% * This tool has only been tested with MDF files generated by ETAS INCA. 
+% * You cannot load signals from "unsorted" MDF files.
+% * You cannot load signals with names greater that 64 characters. The
+% conversion of illegal variable characters like '.' and '\' to legal
+% characters (see below) will make names longer.
+% * You cannot load signals in data blocks containing byte arrays.
+% * You can only
+% load signals with conversion formulae type 0, 1, 2, 6, 10 (assuming 'x' as variable), 11, 12, 65535.
+% * Only MDF files with data from one device is supported. The work around is
+% to store data from more than one device in sepertate MDF files.
+
+%%
+% *Signal name creation*
+
+%%
+% As variables are created for each signal, legal MATLAB variable names
+% must be created from the signal names. This is done by converting illegal
+% characters to legal character combinations and by optionally adding an
+% |'x'| to the start when signal names begin with numbers. The convertion
+% process can be customized by modifying the |mygenvarname| subfunction
+% inside |mdfimport|. The following illegal characters are converted as
+% shown:
+
+%%
+% * |'\'| replaced with |'_bs_'|
+% * |'/'| replaced with |'_fs_'|
+% * |'['| replaced with |'_ls_'|
+% * |']'| replaced with |'_rs_'|
+% * |'('| replaced with |'_lp_'|
+% * |')'| replaced with |'_rp_'|
+% * |':'| replaced with |'_co_'|
+% * |'-'| replaced with |'_hy_'|
+% * |' '| (space) replaced with |'_'|
+% * |'.'| replaced with |'p'|
+% * |'$'| replaced with |'S_'|
+
+%% 
+% *References*
+%
+% This is a list of useful links: 
+
+%%
+% * <http://en.etasgroup.com/products/inca/ ETAS, INCA>
+% * <http://en.etasgroup.com/downloads/downloads.php?file_id=65 MATLAB Add-on for INCA>
+% * <http://www.vector-cantech.com/products/canape.html Vecto CANTech, CANape Graph>
+
+##### SOURCE END #####
+-->
+   </body>
+</html>
