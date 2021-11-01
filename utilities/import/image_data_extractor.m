@@ -148,7 +148,10 @@ case 'select_gray'
 		im_gs = sum( get(d.image,'CData'), 3);
 		im_gs = 1 - im_gs ./ max(im_gs(:));
 		
-
+        
+        select_gs = im_gs(idx_y, idx_x);
+        
+        
 		while ~isempty(new_pts)
 			
 	
@@ -159,8 +162,8 @@ case 'select_gray'
 		
 			% Check the points			
 			for j = size(test_pts,1):-1:1
-				
-				if im_gs(test_pts(j,2), test_pts(j,1)) < thresh
+				                
+				if abs(im_gs(test_pts(j,2), test_pts(j,1)) - select_gs) > thresh
 						test_pts(j,:) =[];
 				end		
 				
