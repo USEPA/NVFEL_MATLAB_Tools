@@ -13,6 +13,8 @@ classdef class_test_data
         transmission        = class_transmission_data   % transmission data
         propulsion_battery  = class_battery_data;       % propulsion battery for EVs or HEVs
         emachine            = class_emachine_data;      % for electric machines (motors/generators)
+        MG1                 = class_emachine_data;      % for electric machines (motors/generators)
+        MG2                 = class_emachine_data;      % for electric machines (motors/generators) 
         controls            = class_controls_data;      % for electric machines (motors/generators)
     end
     
