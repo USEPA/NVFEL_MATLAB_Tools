@@ -322,21 +322,22 @@ for var_list_idx = 1:length(var_append_list)
 		
 
 		% Loop through additional dimensions to create bunch of 2D
+        var_str ={};
 		for i = 1:size(addtl_idx,1)
 			
 			% Print variable name & Additional indicies
-			var_str = sprintf(['%s%s = ',open_mat_str] , var_name,addtl_idx_str{i} );
+			var_str{i} = sprintf(['%s%s = ',open_mat_str] , var_name,addtl_idx_str{i} );
 			
 			% Print most of the data
 			for r = 1:var_rows
-				var_str = [var_str,sprintf([new_line_str,print_str,';'], var(r,:,i))];
+				var_str{i} = [var_str{i},sprintf([new_line_str,print_str,';'], var(r,:,i))];
 			end
 			
 			% Close matrix
 			% Exclude final semicolon
-			var_str = [var_str(1:end-1), sprintf([close_mat_str,' \r\n'])];			
+			var_str{i} = [var_str{i}(1:end-1), sprintf([close_mat_str,' \r\n'])];			
 		end
-		
+		var_str = strjoin(var_str,'');
 		% Prepend entry to clear things out if using dimensional indexing
 		if clear_indexed && size(addtl_idx,1) > 1
 			var_str = sprintf('%s = [];\r\n%s', var_name, var_str);

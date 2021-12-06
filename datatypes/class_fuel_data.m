@@ -16,6 +16,8 @@ classdef class_fuel_data
         mass_g                      % total fuel flow mass in grams
         
         temp_degC                   % fuel temperature in degC
+        
+        gCO2pgal
         		
         % ------------------ possible future properties ------------------
         % add private mass / volume booleans to help break the circle of doom...
