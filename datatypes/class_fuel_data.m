@@ -8,6 +8,7 @@ classdef class_fuel_data
         
         density_kgpL_15C            % fuel density in kg / L @ 15C
         energy_density_MJpkg        % fuel energy density in MJ / kg
+        gCO2pgal                    % CO2 grams/gallon
         
         flow_rate_ccps              % fuel flow rate in cubic centimeters / sec
         flow_rate_gps               % mass fuel flow rate in grams / sec
@@ -16,15 +17,12 @@ classdef class_fuel_data
         mass_g                      % total fuel flow mass in grams
         
         temp_degC                   % fuel temperature in degC
-        
-        gCO2pgal
-        		
+                		
         % ------------------ possible future properties ------------------
         % add private mass / volume booleans to help break the circle of doom...
         % make setters for the mass and flow variables and set the flags
         % then check the flags during derived value computations...
         % g -> g/s -> cc/s -> cc -> g... ad infinitum
-        % Constructor that takes class_REVS_fuel as input (?)
 	end
     
 	properties (Hidden )
@@ -44,6 +42,20 @@ classdef class_fuel_data
     end
     
     methods
+        %% constructor with fuel data        
+        function obj = class_fuel_data ( fuel, time )
+            if nargin >= 1
+                % assign fuel properties from class_REVS_fuel or similar
+                obj.density_kgpL_15C = fuel.density_kgpL_15C;
+                obj.energy_density_MJpkg = fuel.energy_density_MJpkg;
+                obj.gCO2pgal = fuel.gCO2pgal;
+            end
+            if nargin >= 2
+                % assign time vector
+                obj.time = time;
+            end
+        end
+        
         %% getters for Independent properties
         
         function val = get.time( obj )
