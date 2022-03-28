@@ -1,10 +1,10 @@
-function [drive_quality_stats] = REVS_SAEJ2951( model_data, varargin )
-% [drive_quality_stats] = REVS_SAEJ2951( model_data, varargin )
+function [drive_quality_stats] = REVS_SAEJ2951( data, varargin )
+% [drive_quality_stats] = REVS_SAEJ2951( data, varargin )
 %
 % Calculate drive cycle metrics as in SAEJ2951, https://www.sae.org/standards/content/j2951_201111/
 %
 % Parameters:
-%   model_data (typically a ``class_test_data`` object): 
+%   data (typically a ``class_test_data`` object): 
 %       drive cycle data to calculate SAEJ2951 drive metrics for
 %   varargin (optional keyword and name-value arguments):
 %       * 'do_plots': enable plot of target and actual vehicle speeds
@@ -20,7 +20,7 @@ function [drive_quality_stats] = REVS_SAEJ2951( model_data, varargin )
 %   Structure of drive cycle metrics as in SAEJ2951
 %
 % Tip:
-%   ``model_data`` is not required to be of ``class_test_data`` type but must
+%   ``data`` is not required to be of ``class_test_data`` type but must
 %   contain the following fieldnames / properties:
 %       * vehicle.coastdown_target_A_N
 %       * vehicle.coastdown_adjust_A_N
@@ -64,25 +64,49 @@ verbose  = parse_varargs(varargin,'verbose', 0, 'numeric');
 output_fid  = parse_varargs(varargin,'output_fid', 1, 'numeric');
 use_adjusted_ABC  = parse_varargs(varargin, 'use_unadjusted_ABCs', true, 'toggle');
 
-F0_N        = model_data.vehicle.coastdown_target_A_N     + model_data.vehicle.coastdown_adjust_A_N * use_adjusted_ABC;
-Fl_Npms     = model_data.vehicle.coastdown_target_B_Npms  + model_data.vehicle.coastdown_adjust_B_Npms * use_adjusted_ABC;
-F2_Npms2    = model_data.vehicle.coastdown_target_C_Npms2 + model_data.vehicle.coastdown_adjust_C_Npms2 * use_adjusted_ABC;
-
-ETW_kg      = model_data.vehicle.mass_static_kg;
-
-Me_kg       = 1.015 * ETW_kg;
-
-for p = 1:max(model_data.vehicle.drive_cycle_phase)
+if isstruct(data) && isfield(data,'datalog') && isfield(data,'vehicle')
     
-    pts = (model_data.vehicle.drive_cycle_phase == p);
+    F0_N            = data.vehicle.coastdown_target_A_N     + data.vehicle.coastdown_adjust_A_N * use_adjusted_ABC;
+    Fl_Npms         = data.vehicle.coastdown_target_B_Npms  + data.vehicle.coastdown_adjust_B_Npms * use_adjusted_ABC;
+    F2_Npms2        = data.vehicle.coastdown_target_C_Npms2 + data.vehicle.coastdown_adjust_C_Npms2 * use_adjusted_ABC;
+
+    mass_kg         = data.vehicle.mass_static_kg;
+
+    in_time         = data.datalog.time;
+    in_phase        = data.datalog.drive_cycle.phase;
     
-    phase_time = model_data.time(pts);
-    phase_time = phase_time - phase_time(1);
+    in_Vroll_mps    = data.datalog.vehicle.output_spd_mps;
+    in_Vsched_mps   = data.datalog.drive_cycle.spd_mps;
     
-    %    time        = interp1(model_data.time, model_data.time, 0:0.1:model_data.time(end));
-    time        = interp1(phase_time, phase_time, 0:0.1:phase_time(end));
-    Vroll_mps   = interp1(phase_time, model_data.vehicle.speed_mps(pts), time);
-    Vsched_mps  = interp1(phase_time, model_data.vehicle.drive_cycle_speed_mps(pts), time);
+else % class_test_data or properly structured data
+
+    F0_N            = data.vehicle.coastdown_target_A_N     + data.vehicle.coastdown_adjust_A_N * use_adjusted_ABC;
+    Fl_Npms         = data.vehicle.coastdown_target_B_Npms  + data.vehicle.coastdown_adjust_B_Npms * use_adjusted_ABC;
+    F2_Npms2        = data.vehicle.coastdown_target_C_Npms2 + data.vehicle.coastdown_adjust_C_Npms2 * use_adjusted_ABC;
+
+    mass_kg         = data.vehicle.mass_static_kg;
+
+    in_time         = data.time;
+    in_phase        = data.vehicle.drive_cycle_phase;
+    
+    in_Vroll_mps    = data.vehicle.speed_mps;
+    in_Vsched_mps   = data.vehicle.drive_cycle_speed_mps;
+           
+end
+
+Me_kg       = 1.015 * mass_kg;
+
+
+for p = 1:max(in_phase)
+    
+    select_pts = (in_phase == p);
+    
+    select_time = in_time(select_pts);
+    select_time = select_time - select_time(1);
+
+    time        = interp1(select_time, select_time, 0:0.1:select_time(end));
+    Vroll_mps   = interp1(select_time, in_Vroll_mps(select_pts), time);
+    Vsched_mps  = interp1(select_time, in_Vsched_mps(select_pts), time);
     
     if do_plots
         fplothg(time, Vsched_mps, 'b.-');
@@ -276,23 +300,23 @@ for p = 1:max(model_data.vehicle.drive_cycle_phase)
         fprintf(output_fid, 'SAE J2951 Drive Quality Metrics:\n');
         %fprintf(fid, 'Vehicle Name %s\n',Vehicle_Name);
         %fprintf(fid, '%s\n',(ID) );
-        fprintf(output_fid, 'Time secs         %f\n', drive_quality_stats.time_secs(p));
-        fprintf(output_fid, 'CEt MJ            %f\n',(drive_quality_stats.CEt_J(p)/10^6) );
-        fprintf(output_fid, 'CEt_dist J/m      %f\n',(drive_quality_stats.CEt_dist_Jpm(p)) );
-        fprintf(output_fid, 'CEd MJ            %f\n',(drive_quality_stats.CEd_J(p)/10^6) );
-        fprintf(output_fid, 'CEd_dist J/m      %f\n',(drive_quality_stats.CEd_dist_Jpm(p)) );
+        fprintf(output_fid, 'Time secs         %f\n',   drive_quality_stats.time_secs(p));
+        fprintf(output_fid, 'CEt MJ            %f\n',   (drive_quality_stats.CEt_J(p)/10^6) );
+        fprintf(output_fid, 'CEt_dist J/m      %f\n',   (drive_quality_stats.CEt_dist_Jpm(p)) );
+        fprintf(output_fid, 'CEd MJ            %f\n',   (drive_quality_stats.CEd_J(p)/10^6) );
+        fprintf(output_fid, 'CEd_dist J/m      %f\n',   (drive_quality_stats.CEd_dist_Jpm(p)) );
         fprintf(output_fid, 'ER %%             %2.2f\n',(drive_quality_stats.ER_pct(p)));
         fprintf(output_fid, 'DR %%             %2.2f\n',(drive_quality_stats.DR_pct(p)) );
         fprintf(output_fid, 'EER %%            %2.2f\n',(drive_quality_stats.EER_pct(p)));
-        fprintf(output_fid, 'ASCt              %f\n',(drive_quality_stats.ASCt_mps2(p) / 1000));
-        fprintf(output_fid, 'ASCd              %f\n',(drive_quality_stats.ASCd_mps2(p) / 1000));
+        fprintf(output_fid, 'ASCt              %f\n',   (drive_quality_stats.ASCt_mps2(p) / 1000));
+        fprintf(output_fid, 'ASCd              %f\n',   (drive_quality_stats.ASCd_mps2(p) / 1000));
         fprintf(output_fid, 'ASCR %%           %2.2f\n',(drive_quality_stats.ASCR_pct(p)));
-        fprintf(output_fid, 'Dt mi             %f\n',(drive_quality_stats.Dt_m(p)/1609.344));
-        fprintf(output_fid, 'Dt m              %f\n', drive_quality_stats.Dt_m(p));
-        fprintf(output_fid, 'Dd mi             %f\n',(drive_quality_stats.Dd_m(p)/1609.344));
-        fprintf(output_fid, 'Dd m              %f\n', drive_quality_stats.Dd_m(p));
-        fprintf(output_fid, 'Distance Error mi %f\n' , (drive_quality_stats.Dt_m(p) - drive_quality_stats.Dd_m(p))/1609.344 );
-        fprintf(output_fid, 'RMSSE_mph         %f\n',(drive_quality_stats.RMSSE_mph(p)));
+        fprintf(output_fid, 'Dt mi             %f\n',   (drive_quality_stats.Dt_m(p)/1609.344));
+        fprintf(output_fid, 'Dt m              %f\n',   drive_quality_stats.Dt_m(p));
+        fprintf(output_fid, 'Dd mi             %f\n',   (drive_quality_stats.Dd_m(p)/1609.344));
+        fprintf(output_fid, 'Dd m              %f\n',   drive_quality_stats.Dd_m(p));
+        fprintf(output_fid, 'Distance Error mi %f\n',   (drive_quality_stats.Dt_m(p) - drive_quality_stats.Dd_m(p))/1609.344 );
+        fprintf(output_fid, 'RMSSE_mph         %f\n',   (drive_quality_stats.RMSSE_mph(p)));
         %fprintf(fid, '%f\n' ,(NEC) );
         %fprintf(fid,'%f\n',(FC));
         fprintf(output_fid,'\n');
