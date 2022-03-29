@@ -28,7 +28,7 @@ function [drive_quality_stats] = REVS_SAEJ2951( model_data, varargin )
 %       * vehicle.coastdown_adjust_B_Npms
 %       * vehicle.coastdown_target_C_Npms2
 %       * vehicle.coastdown_adjust_C_Npms2
-%       * vehicle.mass_static_kg
+%       * vehicle.mass_static_kg (ETW)
 %       * vehicle.drive_cycle_phase
 %       * time
 %       * vehicle.speed_mps
@@ -147,13 +147,17 @@ for p = 1:max(model_data.vehicle.drive_cycle_phase)
     drive_quality_stats.Dd_m(p) = sum(dd_m); % Accumulated Distance
     drive_quality_stats.Dt_m(p) = sum(dt_m);
     
-    %% INERTIA F0HCES (Newtons)
+    %% INERTIA F0RCES (Newtons)
     Fid_N = zeros(size(time));
     Fit_N = zeros(size(time));
     
-    for i = 1:length(time)
-        Fid_N(i) = Me_kg * ad_mps2(i);
-        Fit_N(i) = Me_kg * at_mps2(i);
+    % wrap this in a try statement in case data doesn't have mass (e.g. for
+    % a speed-only comparison)
+    try
+        for i = 1:length(time)
+            Fid_N(i) = Me_kg * ad_mps2(i);
+            Fit_N(i) = Me_kg * at_mps2(i);
+        end
     end
     
     %% "ENGINE" FORCE (Newtons)
