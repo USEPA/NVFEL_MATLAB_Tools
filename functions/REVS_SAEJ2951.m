@@ -64,7 +64,7 @@ verbose  = parse_varargs(varargin,'verbose', 0, 'numeric');
 output_fid  = parse_varargs(varargin,'output_fid', 1, 'numeric');
 use_adjusted_ABC  = parse_varargs(varargin, 'use_unadjusted_ABCs', true, 'toggle');
 
-if isstruct(data) && isfield(data,'datalog') && isfield(data,'vehicle')
+if isstruct(data) && all(isfield(data,{'time', 'phase', 'driven_spd_mps', 'cycle_spd_mps','vehicle'})) 
     
     F0_N            = data.vehicle.coastdown_target_A_N     + data.vehicle.coastdown_adjust_A_N * use_adjusted_ABC;
     Fl_Npms         = data.vehicle.coastdown_target_B_Npms  + data.vehicle.coastdown_adjust_B_Npms * use_adjusted_ABC;
@@ -72,11 +72,11 @@ if isstruct(data) && isfield(data,'datalog') && isfield(data,'vehicle')
 
     mass_kg         = data.vehicle.mass_static_kg;
 
-    in_time         = data.datalog.time;
-    in_phase        = data.datalog.drive_cycle.phase;
+    in_time         = data.time;
+    in_phase        = data.phase;
     
-    in_Vroll_mps    = data.datalog.vehicle.output_spd_mps;
-    in_Vsched_mps   = data.datalog.drive_cycle.spd_mps;
+    in_Vroll_mps    = data.driven_spd_mps;
+    in_Vsched_mps   = data.cycle_spd_mps;
     
 else % class_test_data or properly structured data
 
@@ -95,7 +95,6 @@ else % class_test_data or properly structured data
 end
 
 Me_kg       = 1.015 * mass_kg;
-
 
 for p = 1:max(in_phase)
     
